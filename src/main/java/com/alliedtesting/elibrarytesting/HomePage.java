@@ -50,25 +50,23 @@ public class HomePage {
    
     void loginAs(String name,String password)  
     {
-
+    	String jsSignEmail = "document.getElementById(\"signin_email\").value=\""+name+"\"";
+    	String jsSignPass  = "document.getElementById(\"signin_password\").value=\""+password+"\"";
+    	
     	//String email_path   = "//*[@id=\"signin_email\"]";
     	//String pass_path    = "//*[@id=\"signin_password\"]";
+    	//driver.findElement(By.xpath(pass_path)).sendKeys(pass_path);
+    	//driver.findElement(By.xpath(email_path)).sendKeys(name); 
     	
     	JavascriptExecutor js = (JavascriptExecutor) driver;
-    	
-    	/* Enter password */ 
-    	//driver.findElement(By.xpath(pass_path)).sendKeys(pass_path);
-    
-    	/* Enter name */
-    	//driver.findElement(By.xpath(email_path)).sendKeys(name); 
-        js.executeScript("document.getElementById(\"signin_email\").value=\""+name+"\"");
-        js.executeScript("document.getElementById(\"signin_password\").value=\""+password+"\"");
+        js.executeScript(jsSignEmail);
+        js.executeScript(jsSignPass);
         
         driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
         WebElement el = driver.findElement(By.xpath("//*[@id=\"user_login_form\"]/div[3]/button[2]"));
         el.click();
         
-        driver.quit();
+        //driver.quit();
     }
 
 }
