@@ -6,7 +6,7 @@ public class Author {
 
 	int    id;
 	String fullName;
-	Date   DOB;
+	Date   dateOfBirth;
 	String description;
 	
 	
@@ -22,11 +22,11 @@ public class Author {
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
-	public Date getDOB() {
-		return DOB;
+	public Date getDateOfBirth() {
+		return dateOfBirth;
 	}
-	public void setDOB(Date dOB) {
-		DOB = dOB;
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
 	public String getDescription() {
 		return description;

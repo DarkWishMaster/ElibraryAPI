@@ -1,8 +1,8 @@
 package com.alliedtesting.elibrarytesting;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import java.util.Date;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 /*
@@ -33,29 +33,20 @@ public class main {
 
 		home.loginAs("superuser@alliedtesting.com", "123");
 		*/
-		Gson gson = new Gson();
-		Author a = gson.fromJson("{id : 2}", Author.class);
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		String json = "{\"id\": 5, \"fullName\": \"Erich Gamma\","+
+				   "\"dateOfBirth\": \"1961-03-13\",\"description\": \"Erich Gamma desc\"}";
+		Author a = gson.fromJson(json, Author.class);
 		
-		System.out.println("Author id = " + a.getId());
-		
+		System.out.println("Author id   = " + a.getId());
+		System.out.println("Author name = " + a.getFullName());
+		System.out.println("Author DOB  = " +  a.getDateOfBirth());
+		String json2 = gson.toJson(a);
+		System.out.println(json2);
 
 	}
 		
-		
-	class Author
-		{
-			int id;
-
-			public int getId() {
-				return id;
-			}
-
-			public void setId(int id) {
-				this.id = id;
-			}
-			
-		}
-
+	
 }
 	
 

@@ -11,7 +11,7 @@ public class REST {
 	
 	/** Book Resource **/
 	/*******************/
-	
+
 	/* GET-  http://{host}/elibraryws/books/{bookId} */
 	public Book getBook(int id){
 		
