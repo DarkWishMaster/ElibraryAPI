@@ -3,6 +3,11 @@ package com.alliedtesting.elibrarytesting;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 public class Book {
 	
 	int           id;
@@ -18,7 +23,7 @@ public class Book {
 	List<Comment> comments;
 	List<Author>  authors;
 	
-	
+
 	public int getId() {
 		return id;
 	}

@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -39,49 +39,19 @@ public class main {
 
 		home.loginAs("superuser@alliedtesting.com", "123");
 		*/
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		String json = "{\"id\": 5, \"fullName\": \"Erich Gamma\","+
-				   "\"dateOfBirth\": \"1961-03-13\",\"description\": \"Erich Gamma desc\"}";
-		Author a = gson.fromJson(json, Author.class);
+		REST API = new REST();
+		API.removeBook(1);
+		Book mybook = API.getBook(1);
 		
-		System.out.println("Author id   = " + a.getId());
-		System.out.println("Author name = " + a.getFullName());
-		System.out.println("Author DOB  = " +  a.getDateOfBirth());
-		String json2 = gson.toJson(a);
-		System.out.println(json2);
+	//	mybook.setId(666);
+		//mybook.setTitle("This book is from Satan!!!");
+		//API.createBook(mybook);
+	//	mybook = API.getBook(666);
+		//API.prettyPrint(mybook);
+		API.prettyPrint(API.getAuthors());
 		
-		/* GET-  http://{host}/elibraryws/books/{bookId} */
-		String url = "http://81.180.75.144:8080/elibraryws/books/1";
-		 
-		HttpClient client = new DefaultHttpClient();
-		HttpGet request = new HttpGet(url);
- 
- 
-		HttpResponse response = client.execute(request);
- 
-		System.out.println("\nSending 'GET' request to URL : " + url);
-		System.out.println("Response Code : " + 
-                       response.getStatusLine().getStatusCode());
- 
-		BufferedReader rd = new BufferedReader(
-                       new InputStreamReader(response.getEntity().getContent()));
- 
-		StringBuffer result = new StringBuffer();
-		String line = "";
-		while ((line = rd.readLine()) != null) {
-			result.append(line);
-		}
- 
-		
-		System.out.println(result);
-		/* Cheers, all works fine */
-/*
- * 	TODO:
- * 		- modify classes for http client to handle exceptions
- */
 	}
 		
 	
 }
 	
-
