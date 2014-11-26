@@ -1,14 +1,15 @@
 package com.alliedtesting.elibrarytesting;
 
-import java.util.concurrent.TimeUnit;
-
-import org.jboss.netty.util.Timeout;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 
+/*
+ * TODO:
+ * 	- UI API
+ */
 public class HomePage {
 	
 	WebDriver driver;
@@ -62,10 +63,14 @@ public class HomePage {
         js.executeScript(jsSignEmail);
         js.executeScript(jsSignPass);
         
-        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
         WebElement el = driver.findElement(By.xpath("//*[@id=\"user_login_form\"]/div[3]/button[2]"));
+        try {
+            Thread.sleep(1000);                 //1000 milliseconds is one second.
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
         el.click();
-        
+
         //driver.quit();
     }
 

@@ -10,6 +10,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 
@@ -19,7 +20,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 /* TODO:
- * 		- regroup methods to separate classes 
+ * 		- Test methods  
  */
 
 public class REST {
@@ -31,7 +32,6 @@ public class REST {
 	public REST() {
 
 		if (httpclient == null) {
-			
 			httpclient     = HttpClientBuilder.create().build();
 			
 			GsonBuilder gb = new GsonBuilder();
@@ -80,6 +80,7 @@ public class REST {
 		return gson.fromJson(getResponseData(response), Book.class);
 	}
 
+	
 	/* POST - http://{host}/elibraryws/books */
 	public void createBook(Book book) throws Exception {
 		
@@ -88,6 +89,7 @@ public class REST {
 		
 		String url           = "http://" + host + "/elibraryws/books";
 		HttpPost request     = new HttpPost(url);
+		request.setHeader("Content-type", "application/json");
 		StringEntity payload = new StringEntity(gson.toJson(book));
 		request.setEntity(payload);
 		HttpResponse response = httpclient.execute(request);
@@ -97,7 +99,14 @@ public class REST {
 	
 	/* PUT - http://{host}/elibraryws/books/{bookId} */
 	public void updateBook(int id, Book book) throws Exception {
-		// ...
+		
+		String url           = "http://" + host + "/elibraryws/" + id;
+		HttpPut  request     = new HttpPut(url);
+		StringEntity payload = new StringEntity(gson.toJson(book));
+		request.setEntity(payload);
+		HttpResponse response = httpclient.execute(request);
+		
+		System.out.println(getResponseData(response));		
 	}
 	
 	/* DELETE - http://{host}/elibraryws/books/{bookId} */
@@ -114,9 +123,14 @@ public class REST {
 	/* POST - http://{host}/elibraryws/books/get-filtered-data-count */
 	public int getBooksCount(String filter) throws Exception {
 		
-		int count = 0;
-		// ...
-		return count;
+		String url           = "http://" + host + "/elibraryws/books/get-filtered-data-count";
+		HttpPost request     = new HttpPost(url);
+		request.setHeader("Content-type", "application/json");
+		StringEntity payload = new StringEntity(filter);
+		request.setEntity(payload);
+		HttpResponse response = httpclient.execute(request);
+
+		return Integer.valueOf(getResponseData(response));
 	}
 	
 	/* POST - http://{host}/elibraryws/books/get-data/{offset}/{limit}/{sort_by}/{sort_dir} */
@@ -124,7 +138,17 @@ public class REST {
 			String sort_by, String sort_dir) throws Exception {
 		
 		List<Book> books = new ArrayList<Book>();
-		// ...
+		
+		String url           = "http://" + host + "/elibraryws/books/get-data" +
+						"/" + offset + "/" + limit + "/" + sort_by + "/" + sort_dir;
+		
+		HttpPost request     = new HttpPost(url);
+		StringEntity payload = new StringEntity(filter);
+		request.setEntity(payload);
+		HttpResponse response = httpclient.execute(request);
+		
+		System.out.println(getResponseData(response));
+		
 		return books;
 	}
 
@@ -145,14 +169,11 @@ public class REST {
 	/* GET - http://{host}/elibraryws/authors/count */
 	public int getAuthorsCount() throws Exception {
 		
-/* TODO: returns Error report */
-		String url            = "http://" + host + "/elibraryws/count";
+		String url            = "http://" + host + "/elibraryws/authors/count";
 		HttpGet request       = new HttpGet(url);
 		HttpResponse response = httpclient.execute(request);
-		System.out.println(getResponseData(response));
-		
-		return 0;
-		//return Integer.valueOf(getResponseData(response));
+	
+		return Integer.valueOf(getResponseData(response));
 	}
 	
 	/* GET - http://{host}/elibraryws/authors */
@@ -204,9 +225,11 @@ public class REST {
 	/* GET - http://{host}/elibraryws/categories/count */
 	public int getCategoriesCount() throws Exception {
 		
-		int count = 0;
-		// ...
-		return count;
+		String url            = "http://" + host + "/elibraryws/categories/count";
+		HttpGet request       = new HttpGet(url);
+		HttpResponse response = httpclient.execute(request);
+	
+		return Integer.valueOf(getResponseData(response));
 	}
 	
 	/* GET - http://{host}/elibraryws/categories */
@@ -256,9 +279,12 @@ public class REST {
 	
 	/* GET - http://{host}/elibraryws/roles/count */
 	public int getUserRolesCount() throws Exception {
-		int count = 0;
-		// ...
-		return count;
+		
+		String url            = "http://" + host + "/elibraryws/roles/count";
+		HttpGet request       = new HttpGet(url);
+		HttpResponse response = httpclient.execute(request);
+	
+		return Integer.valueOf(getResponseData(response));
 	}
 	
 	/* GET - http://{host}/elibraryws/roles */
@@ -330,9 +356,14 @@ public class REST {
 	/* POST - http://{host}/elibraryws/book-requests/get-filtered-data-count */
 	public int getBookRequestsCount(String filter) throws Exception {
 		
-		int count = 0;
-		// ...
-		return count;
+		String url           = "http://" + host + "/elibraryws/book-requests/get-filtered-data-count";
+		HttpPost request     = new HttpPost(url);
+		request.setHeader("Content-type", "application/json");
+		StringEntity payload = new StringEntity(filter);
+		request.setEntity(payload);
+		HttpResponse response = httpclient.execute(request);
+
+		return Integer.valueOf(getResponseData(response));
 	}
 	
 	/* POST - http://{host}/elibraryws/book-requests/get-data/{offset}/{limit}/{sort_by}/{sort_dir} */
@@ -348,11 +379,16 @@ public class REST {
 	/**************************/
 
 	/* POST - http://{host}/elibraryws/logs/get-filtered-data-count */
-	public int getLogsCount() throws Exception {
+	public int getLogsCount(String filter) throws Exception {
 
-		int count = 0;
-		// ...
-		return count;
+		String url           = "http://" + host + "/elibraryws/logs/get-filtered-data-count";
+		HttpPost request     = new HttpPost(url);
+		request.setHeader("Content-type", "application/json");
+		StringEntity payload = new StringEntity(filter);
+		request.setEntity(payload);
+		HttpResponse response = httpclient.execute(request);
+
+		return Integer.valueOf(getResponseData(response));
 	}
 	
 	/* POST - http://{host}/elibraryws/logs/get-data/{offset}/{limit}/{sort_by}/{sort_dir} */
@@ -401,9 +437,11 @@ public class REST {
 	/* GET - http://{host}/elibraryws/registration/get-data-count */
 	public int  getRegistrationRequestsCount() throws Exception {
 		
-		int count = 0;
-		// ...
-		return count;
+		String url            = "http://" + host + "/elibraryws/registration/get-data-count";
+		HttpGet request       = new HttpGet(url);
+		HttpResponse response = httpclient.execute(request);
+	
+		return Integer.valueOf(getResponseData(response));
 	}
 	
 	/* GET - http://{host}/elibraryws/regsitration/get-data/{offset}/{limit}/{sort_by}/{sort_dir} */
@@ -483,9 +521,11 @@ public class REST {
 	/* GET - http://{host}/elibraryws/users/get-filtered-data-count  */
 	public int getUsersCount() throws Exception {
 		
-		int count = 0;
-		//...
-		return count;
+		String url            = "http://" + host + "/elibraryws/users/get-filtered-data-count";
+		HttpGet request       = new HttpGet(url);
+		HttpResponse response = httpclient.execute(request);
+	
+		return Integer.valueOf(getResponseData(response));
 	}
 
 	/* GET - http://{host}/elibraryws/users/get-data/{offset}/{limit}/{sort_by}/{sort_dir} */
