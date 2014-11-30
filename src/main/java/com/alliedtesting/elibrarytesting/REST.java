@@ -56,6 +56,7 @@ public class REST {
 		return result.toString();
 	}
 	
+	
 	public void prettyPrint(Object  obj)
 	{
 		String json             = gson.toJson(obj);
@@ -65,6 +66,21 @@ public class REST {
 		System.out.println(prettyJsonString);
 	}
 
+	private HttpResponse getRequest(int id, String url) throws Exception
+	{
+		return httpclient.execute(new HttpGet(url));
+	}
+
+	private HttpResponse createRequest(Object obj, String url) throws Exception
+	{
+		HttpPost request     = new HttpPost(url);
+		
+		request.setHeader("Content-type", "application/json");
+		StringEntity payload = new StringEntity(gson.toJson(obj));
+		request.setEntity(payload);
+		
+		return httpclient.execute(request);
+	}
 
 
 	/** Book Resource **/
@@ -74,34 +90,29 @@ public class REST {
 	public Book getBook(int id) throws Exception {
 		
 		String url            = "http://" + host + "/elibraryws/books/" + id;
-		HttpGet request       = new HttpGet(url);
-		HttpResponse response = httpclient.execute(request);
+		HttpResponse response = getRequest(id, url);
 		
 		return gson.fromJson(getResponseData(response), Book.class);
 	}
 
 	
 	/* POST - http://{host}/elibraryws/books */
-	public void createBook(Book book) throws Exception {
-		
-		/* Посмотрите тут пожалуйста */
-		/*****************************/
+	public Book createBook(Book book) throws Exception {
 		
 		String url           = "http://" + host + "/elibraryws/books";
-		HttpPost request     = new HttpPost(url);
-		request.setHeader("Content-type", "application/json");
-		StringEntity payload = new StringEntity(gson.toJson(book));
-		request.setEntity(payload);
-		HttpResponse response = httpclient.execute(request);
+
+		HttpResponse response = createRequest(book, url);
 		
-		System.out.println(getResponseData(response));
+		return gson.fromJson(getResponseData(response), Book.class);
 	} 
 	
 	/* PUT - http://{host}/elibraryws/books/{bookId} */
 	public void updateBook(int id, Book book) throws Exception {
 		
-		String url           = "http://" + host + "/elibraryws/" + id;
+		String url           = "http://" + host + "/elibraryws/books/" + id;
 		HttpPut  request     = new HttpPut(url);
+		
+		request.setHeader("Content-type", "application/json");
 		StringEntity payload = new StringEntity(gson.toJson(book));
 		request.setEntity(payload);
 		HttpResponse response = httpclient.execute(request);
@@ -134,22 +145,21 @@ public class REST {
 	}
 	
 	/* POST - http://{host}/elibraryws/books/get-data/{offset}/{limit}/{sort_by}/{sort_dir} */
+	@SuppressWarnings("unchecked")
 	public List<Book> getBooks(String filter, int offset, int limit,
 			String sort_by, String sort_dir) throws Exception {
-		
-		List<Book> books = new ArrayList<Book>();
 		
 		String url           = "http://" + host + "/elibraryws/books/get-data" +
 						"/" + offset + "/" + limit + "/" + sort_by + "/" + sort_dir;
 		
 		HttpPost request     = new HttpPost(url);
 		StringEntity payload = new StringEntity(filter);
+		
+		request.setHeader("Content-type", "application/json");
 		request.setEntity(payload);
 		HttpResponse response = httpclient.execute(request);
 		
-		System.out.println(getResponseData(response));
-		
-		return books;
+		return gson.fromJson(getResponseData(response), List.class);
 	}
 
 	
@@ -200,12 +210,30 @@ public class REST {
 	
 	/* POST - http://localhost:8080/elibraryws/authors */
 	public void createAuthor(Author author) throws Exception {
-		// ...
+		
+		String url           = "http://" + host + "/elibraryws/authors";
+		HttpPost request     = new HttpPost(url);
+		
+		request.setHeader("Content-type", "application/json");
+		StringEntity payload = new StringEntity(gson.toJson(author));
+		request.setEntity(payload);
+		HttpResponse response = httpclient.execute(request);
+		
+		System.out.println(getResponseData(response));
 	}
 	
 	/* PUT-http://localhost:8080/elibraryws/authors */
-	public void updateAuthor(int id, Author author) throws Exception {
-		// ...
+	public void updateAuthor(Author author) throws Exception {
+		
+		String url           = "http://" + host + "/elibraryws/authors";
+		HttpPut  request     = new HttpPut(url);
+		
+		request.setHeader("Content-type", "application/json");
+		StringEntity payload = new StringEntity(gson.toJson(author));
+		request.setEntity(payload);
+		HttpResponse response = httpclient.execute(request);
+		
+		System.out.println(getResponseData(response));
 	}
 	
 
@@ -256,12 +284,30 @@ public class REST {
 	
 	/* POST - http://localhost:8080/elibraryws/categories */
 	public void createCategory(Category category) throws Exception {
-		// ...
+		
+		String url           = "http://" + host + "/elibraryws/categories";
+		HttpPost request     = new HttpPost(url);
+		
+		request.setHeader("Content-type", "application/json");
+		StringEntity payload = new StringEntity(gson.toJson(category));
+		request.setEntity(payload);
+		HttpResponse response = httpclient.execute(request);
+		
+		System.out.println(getResponseData(response));
 	}
 	
 	/* PUT-http://localhost:8080/elibraryws/categories */
-	public void updateCategory(int id, Category category) throws Exception {
-		// ...
+	public void updateCategory(Category category) throws Exception {
+		
+		String url           = "http://" + host + "/elibraryws/categories";
+		HttpPut  request     = new HttpPut(url);
+		
+		request.setHeader("Content-type", "application/json");
+		StringEntity payload = new StringEntity(gson.toJson(category));
+		request.setEntity(payload);
+		HttpResponse response = httpclient.execute(request);
+		
+		System.out.println(getResponseData(response));
 	}
 	
 	/** User Role Resource **/

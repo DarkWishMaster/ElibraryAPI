@@ -1,6 +1,5 @@
 package com.alliedtesting.elibrarytesting;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import java.util.List;
 
 
 /*
@@ -32,17 +31,12 @@ public class main {
 
 	public static void main(String[] args) throws Exception {
 		
-		HomePage home = new HomePage();
-		home.openPage();
-		home.clickSignInBtn();
-		home.loginAs("worke2r@alliedtesting.com", "123");
 		
-		System.out.println(home.getLogged());
-		
-//	    REST API = new REST();
-//	    /* Wow post method works */
-//	    String filter = "{\"levelName\":\"INFO\"}";
-//	    System.out.println(API.getLogsCount(filter));
+	    REST API = new REST();
+	    String filter = "{\"categoryId\":1,\"authorId\":1}";
+	    API.prettyPrint(API.getBook(1));
+	    
+	    
 		
 	}
 
